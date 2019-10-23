@@ -1,6 +1,6 @@
 # Projeto OO
 
-# Módulo Virtual de Aprendizado
+# Education in a Virtual Ambient (EVA)
 
 Disciplina: Projeto de Software
 
