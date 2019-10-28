@@ -2,8 +2,9 @@ package student;
 import user.User;
 public class Student extends User{
     int registrationNumber;
-    int connectedTime;
-    String ingressionYear = new String();
+    String universityCourse = new String();
+    int universityPeriod;
+    int ingressionYear;
 
     public int getRegistrationNumber() {
         return registrationNumber;
@@ -13,11 +14,15 @@ public class Student extends User{
         this.registrationNumber = registrationNumber;
     }
 
-    public int getConnectedTime() {
-        return connectedTime;
-    }
+    public String getUniversityCourse() { return universityCourse; }
 
-    public void setConnectedTime(int connectedTime) {
-        this.connectedTime = connectedTime;
-    }
+    public void setUniversityCourse(String universityCourse) { this.universityCourse = universityCourse; }
+
+    public int getUniversityPeriod() { return universityPeriod; }
+
+    public void setUniversityPeriod(int universityPeriod) { this.universityPeriod = universityPeriod; }
+
+    public int getIngressionYear() { return ingressionYear; }
+
+    public void setIngressionYear(int ingressionYear) { this.ingressionYear = ingressionYear; }
 }
