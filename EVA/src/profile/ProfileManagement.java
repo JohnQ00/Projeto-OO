@@ -9,7 +9,9 @@ import java.util.Scanner;
 
 public class ProfileManagement {
     public static Scanner entry = new Scanner(System.in);
+
     public static void accountOptions(int counter, int choice, Student s, ArrayList<User> users){
+        s = new Student();
         if (choice == 1){
             System.out.print("CPF: ");
             s.setCpf(entry.next());
@@ -22,10 +24,6 @@ public class ProfileManagement {
             //counter++;
 
             System.out.println("You succesfully created an account.");
-            s.setCpf("zezin");
-            s.setUsername("zezin");
-            s.setPassword("zezin");
-
         }
         if (choice == 3){
             System.out.print("CPF: ");
@@ -40,13 +38,23 @@ public class ProfileManagement {
 
     public static void searchUsers(String cpf, String password, Student s, ArrayList<User> users){
 
-        for (int i = 0; i < 4; i++) {
-            System.out.println(users.get(i).getCpf());
-            System.out.println(users.get(i).getPassword());
-            if (users.get(i).getCpf().equalsIgnoreCase(cpf) && users.get(i).getPassword().equalsIgnoreCase(password))
-                System.out.println("\nLogin was done.\n");
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i) instanceof User) {
+                if (users.get(i).getCpf().equalsIgnoreCase(cpf) && users.get(i).getPassword().equalsIgnoreCase(password)) {
+                    System.out.println("\nLogin was done.\n");
+                }
+                printar(users);
+            }
             else
                 System.out.println("\nLogin was not done.\n");
         }
+    }
+
+    public static void printar(ArrayList<User> u){
+        System.out.println(u.size());
+        for (User c: u){
+            System.out.println(c.getCpf());
+        }
+
     }
 }
