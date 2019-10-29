@@ -7,7 +7,11 @@ public abstract class User {
 
     String fullName = new String();
     String email = new String();
+    int age;
 
+    public int getAge() { return age; }
+
+    public void setAge(int age) { this.age = age; }
 
     public String getCpf() {
         return cpf;

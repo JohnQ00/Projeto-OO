@@ -29,30 +29,11 @@ public class MainPage {
         System.out.print("Type here: ");
         int choice = input.nextInt();
         if(choice == 0){
-            System.out.println("Closing the system.");
+            System.out.println("\nClosing the system.");
             break;
         }
 
         accountOptions(counter,choice,s,users);
-
-//        s.setFullName("Claudinhu");
-//        s.setEmail("claudiows@gmail.com");
-//        s.setCpf("13662512459");
-//        s.setRegistrationNumber(10192);
-
-//        users.add(s);
-//
-//
-//        Professor p = new Professor();
-//        p.setCpf(s.getCpf());
-//        p.setFullName(s.getFullName());
-//        p.setEmail(s.getEmail());
-//        p.setClassesQuantity(10);
-//
-//        users.set(0,p);
-
-
-
     }
 
     }
