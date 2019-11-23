@@ -2,9 +2,10 @@ package student;
 import user.User;
 public class Student extends User{
     int registrationNumber;
-    String universityCourse = new String();
+    public String universityDiscipline = new String();
     int universityPeriod;
     int ingressionYear;
+    public String coursesIn[] = new String[500];
 
     public int getRegistrationNumber() {
         return registrationNumber;
@@ -14,9 +15,9 @@ public class Student extends User{
         this.registrationNumber = registrationNumber;
     }
 
-    public String getUniversityCourse() { return universityCourse; }
+    public String getUniversityDiscipline() { return universityDiscipline; }
 
-    public void setUniversityCourse(String universityCourse) { this.universityCourse = universityCourse; }
+    public void setUniversityDiscipline(String universityDiscipline) { this.universityDiscipline = universityDiscipline; }
 
     public int getUniversityPeriod() { return universityPeriod; }
 

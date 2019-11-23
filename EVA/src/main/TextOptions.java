@@ -7,8 +7,6 @@ public class TextOptions {
         System.out.println("Choose an option:");
         System.out.println("0 to Close the system");
         System.out.println("1 to Create an account");
-        System.out.println("2 to Create a professor account");
-        System.out.println("3 to Login");
-        System.out.println("4 to Login as a professor");
+        System.out.println("2 to Login");
     }
 }

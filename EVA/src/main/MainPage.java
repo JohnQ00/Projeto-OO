@@ -8,20 +8,18 @@ import profile.ProfileManagement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static profile.ProfileManagement.accountOptions;
+import profile.ProfileManagement;
 
 public class MainPage {
 
     ///ArrayList////////////////////////////////////////////////////////////////////////////////////////
-    public static final int max = 500;
+    public final int max = 500;
     ArrayList<User> users = new ArrayList<User>(max);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ProfileManagement ProfileM = new ProfileManagement();
+    public User user;
 
-    public Student s = new Student();
-
-    public static int counter = 0;
-
-    public static Scanner input = new Scanner(System.in);
+    public Scanner input = new Scanner(System.in);
 
     public void Init(){
     while(true){
@@ -33,21 +31,8 @@ public class MainPage {
             break;
         }
 
-        accountOptions(counter,choice,s,users);
+        ProfileM.accountOptions(choice,user,users);
     }
 
     }
-
-//    private int getId(String username, String password) {
-//
-//        for (int i = 0; i < users.size(); i++){
-//            if (users.get(i).getUsername().equals(username))
-//                if(users.get(i).getPassword().equals(password))
-//                    return i;
-//
-//        }
-//        return -1;
-//    }
-
-
 }

@@ -1,141 +1,190 @@
 package profile;
 
-import main.MainPage;
+import professor.Professor;
 import student.Student;
 import user.User;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import classes.ClassesManagement;
+
 public class ProfileManagement {
-    public static Scanner entry = new Scanner(System.in);
-
-    public static void accountOptions(int counter, int choice, Student s, ArrayList<User> users){
-        s = new Student();
+    public Scanner entry = new Scanner(System.in);
+    ClassesManagement ClassesM = new ClassesManagement();
+    public void accountOptions(int choice, User user, ArrayList<User> users){
         if (choice == 1){
-            System.out.print("CPF: ");
-            s.setCpf(entry.next());
-            System.out.print("Username: ");
-            s.setUsername(entry.next());
-            System.out.print("Password: ");
-            s.setPassword(entry.next());
+            System.out.println("Do you want to create a professor or a student account ?\n[1 to Professor]\n[2 to Student]");
+            System.out.print("Type here: ");
+            int accountDecision = entry.nextInt();
+            if(accountDecision == 1)
+            {
+                user = new Professor();
+            }
+            else
+                user = new Student();
 
-            users.add(s);
+            System.out.print("CPF: ");
+            user.setCpf(entry.next());
+            System.out.print("Username: ");
+            user.setUsername(entry.next());
+            System.out.print("Password: ");
+            user.setPassword(entry.next());
+            System.out.println();
+            users.add(user);
 
             System.out.println("You succesfully created an account.");
         }
-        if (choice == 3){
+        if (choice == 2){
             System.out.print("CPF: ");
             String cpf = entry.next();
             System.out.print("Password: ");
             String password = entry.next();
 
-            int studentId = searchUsers(cpf,password,s,users);
-            if (studentId == -1) { return; }
-            System.out.println("\nUsername: "+ users.get(studentId).getUsername());
-            loggedDecision(studentId,s,users);
+            int userId = searchUsers(cpf,password,user,users);
+            System.out.println("Id " + userId);
+            if (userId == -1) { return; }
+            System.out.println("\nUsername: "+ users.get(userId).getUsername());
+            if (users.get(userId) instanceof Student)
+                System.out.println("You are a student.");
+            else
+                System.out.println("You are a professor.");
+            loggedDecision(userId,user,users);
             return;
         }
 
     }
 
-    public static int searchUsers(String cpf, String password, Student s, ArrayList<User> users){
+    public int searchUsers(String cpf, String password, User user, ArrayList<User> users){
 
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i) instanceof User) {
-                if (users.get(i).getCpf().equalsIgnoreCase(cpf) && users.get(i).getPassword().equalsIgnoreCase(password)) {
-                    System.out.println("\nLogin was done.");
-                    return i;
-                }
+            //printar(users);
+            if(users.get(i) != null) {
                 if (users.get(i).getCpf().equalsIgnoreCase("admin") && users.get(i).getPassword().equalsIgnoreCase("admin")) {
                     System.out.println("\nLogged as administrator.\n");
                 }
-                //printar(users);
-            }
-            else {
-                System.out.println("\nLogin was not done.\n");
-                return -1;
+                if (users.get(i).getCpf().equalsIgnoreCase(cpf) && users.get(i).getPassword().equalsIgnoreCase(password)) {
+                    System.out.println("\nLogin was done. ");
+                    return i;
+                }
             }
         }
+        System.out.println("\nLogin was not done.\n");
         return -1;
     }
 
-    public static void printar(ArrayList<User> u){
+    public void printar(ArrayList<User> u){
         System.out.println(u.size());
         for (User c: u){
-            System.out.println(c.getCpf());
+            if(c != null)
+                System.out.println(c.getCpf());
         }
     }
 
-    public static void loggedOptions(){
+    public void loggedOptions(int userId, ArrayList<User> users){
         System.out.println("As a logged user,what you want to do ?");
         System.out.println("0 to Logout");
         System.out.println("1 to Create a profile");
         System.out.println("2 to Edit your profile");
         System.out.println("3 to Check your profile");
+        if (users.get(userId) instanceof Professor) {
+            System.out.println("4 to Create a class");
+            System.out.println("5 to Add students");
+        }
+        if (users.get(userId) instanceof Student) {
+            System.out.println("4 to Enter a class");
+        }
     }
 
-    public static void loggedDecision(int studentId, Student s,ArrayList<User> users){
+    public void loggedDecision(int userId, User user,ArrayList<User> users){
         while(true) {
-            loggedOptions();
+            loggedOptions(userId, users);
             System.out.println();
             System.out.print("Type here: ");
             int decision = entry.nextInt();
-
-            if (decision == 1) { profileCreation(studentId, s, users); }
-            else if (decision == 2) { profileChange(studentId, s, users); }
-            else if (decision == 3) { profileCheck(studentId, s, users);}
-            else{
-                return;
+            if (decision == 0) {return;}
+            else if (decision == 1) { profileCreation(userId, user, users);}
+            else if (decision == 2) { profileChange(userId, user, users);}
+            else if (decision == 3) { profileCheck(userId, user, users);}
+            if (users.get(userId) instanceof Professor) {
+                if (decision == 4) {
+                    ClassesM.classManagement(userId, users);
+                }
+                if (decision == 5) {
+                    ClassesM.addStudents(userId, users);
+                }
+            }
+            else if (users.get(userId) instanceof Student){
+                if (decision == 4){
+                    ClassesM.enterInClass(userId, users);
+                }
             }
         }
     }
 
-    public static void profileCreation(int studentId, Student s,ArrayList<User> users) {
+    public void profileCreation(int userId, User user,ArrayList<User> users) { // criar perfi do studante
         System.out.print("Insert your full name: ");
         entry.nextLine();
-        s.setFullName(entry.nextLine());
+        users.get(userId).setFullName(entry.nextLine());
         System.out.print("Insert your age: ");
-        s.setAge(entry.nextInt());
+        users.get(userId).setAge(entry.nextInt());
         System.out.print("Insert your e-mail: ");
-        s.setEmail(entry.next());
-        System.out.print("Insert your registration number: ");
-        s.setRegistrationNumber(entry.nextInt());
-        entry.nextLine();
-        System.out.print("Insert your University course: ");
-        s.setUniversityCourse(entry.nextLine());
-        System.out.print("Insert your Course period: ");
-        s.setUniversityPeriod(entry.nextInt());
-        System.out.print("Insert your ingression year: ");
-        s.setIngressionYear(entry.nextInt());
-        System.out.println();
+        users.get(userId).setEmail(entry.next());
+        if (users.get(userId) instanceof Professor) {
+            System.out.print("Insert your number of classes: ");
+            ((Professor) users.get(userId)).setClassesQuantity(entry.nextInt());
+            entry.nextLine();
+            System.out.print("Insert your formation: ");
+            ((Professor) users.get(userId)).setFormation(entry.nextLine());
+            System.out.print("Insert your specialization: ");
+            ((Professor) users.get(userId)).setSpecialization(entry.nextLine());
+        }
+        else{
+            System.out.print("Insert your registration number: ");
+            ((Student) users.get(userId)).setRegistrationNumber(entry.nextInt());
+            entry.nextLine();
+            System.out.print("Insert your University course: ");
+            ((Student) users.get(userId)).setUniversityDiscipline(entry.nextLine());
+            System.out.print("Insert your Course period: ");
+            ((Student) users.get(userId)).setUniversityPeriod(entry.nextInt());
+            System.out.print("Insert your ingression year: ");
+            ((Student) users.get(userId)).setIngressionYear(entry.nextInt());
+            System.out.println();
+        }
 
-        users.add(studentId, s);
         return;
     }
 
-    public static void profileCheck(int studentId, Student s, ArrayList<User> users){
+    public void profileCheck(int userId, User user, ArrayList<User> users){
         System.out.println("Do you want to see your informations ? [Yes / No]");
-
         String decision = entry.next();
         if (decision.equalsIgnoreCase("Yes")){
 
             System.out.print("\nFull name: ");
-            System.out.println(s.getFullName());
+            System.out.println(users.get(userId).getFullName());
             System.out.print("Age: ");
-            System.out.println(s.getAge());
+            System.out.println(users.get(userId).getAge());
             System.out.print("E-mail: ");
-            System.out.println(s.getEmail());
+            System.out.println(users.get(userId).getEmail());
 
-            if (users.get(studentId) instanceof Student) {
+            if (users.get(userId) instanceof Student) {
                 System.out.print("Registration number: ");
-                System.out.println((((Student) users.get(studentId))).getRegistrationNumber());
+                System.out.println((((Student) users.get(userId))).getRegistrationNumber());
                 System.out.print("Ingression year: ");
-                System.out.println((((Student) users.get(studentId))).getIngressionYear());
+                System.out.println((((Student) users.get(userId))).getIngressionYear());
                 System.out.print("University course: ");
-                System.out.println((((Student) users.get(studentId))).getUniversityCourse());
+                System.out.println((((Student) users.get(userId))).getUniversityDiscipline());
                 System.out.print("University period: ");
-                System.out.println((((Student) users.get(studentId))).getUniversityPeriod());
+                System.out.println((((Student) users.get(userId))).getUniversityPeriod());
+                System.out.println();
+            }
+            else{
+                System.out.print("Number of classes: ");
+                System.out.println(((Professor) users.get(userId)).getClassesQuantity());
+                System.out.print("Formation: ");
+                System.out.println(((Professor) users.get(userId)).getFormation());
+                System.out.print("Insert your specialization: ");
+                System.out.println(((Professor) users.get(userId)).getSpecialization());
                 System.out.println();
             }
         }
@@ -144,35 +193,43 @@ public class ProfileManagement {
         }
     }
 
-    public static void profileChange(int studentId, Student s, ArrayList<User> users){
+    public void profileChange(int userId, User user, ArrayList<User> users){
         profileChangeInfo();
+        if (users.get(userId) instanceof Student) { System.out.println("5 to Registration number"); }
+        else { professionProfileChangeInfo(); }
+
         System.out.print("Type here: ");
         int decision = entry.nextInt();
+
         System.out.print("Type here: ");
         if (decision == 0){return; }
-        if (decision == 1){ entry.nextLine(); users.get(studentId).setFullName(entry.nextLine()); }
-        else if (decision == 2){ users.get(studentId).setAge(entry.nextInt()); }
-        else if (decision == 3){ users.get(studentId).setEmail(entry.next()); }
-        else if (decision == 8) { entry.nextLine(); users.get(studentId).setUsername(entry.nextLine());}
-        if (users.get(studentId) instanceof Student) {
-            if (decision == 4) { ((Student) users.get(studentId)).setRegistrationNumber(entry.nextInt());}
-            else if (decision == 5) { ((Student) users.get(studentId)).setIngressionYear(entry.nextInt()); }
-            else if (decision == 6) { entry.nextLine(); ((Student) users.get(studentId)).setUniversityCourse(entry.nextLine()); }
-            else if (decision == 7) { ((Student) users.get(studentId)).setUniversityPeriod(entry.nextInt()); }
+        if (decision == 1){ entry.nextLine(); users.get(userId).setFullName(entry.nextLine()); }
+        else if (decision == 2){ users.get(userId).setAge(entry.nextInt()); }
+        else if (decision == 3){ users.get(userId).setEmail(entry.next()); }
+        else if (decision == 4){ entry.nextLine(); users.get(userId).setUsername(entry.nextLine());}
+
+        if (users.get(userId) instanceof Student)
+            if (decision == 5){ ((Student) users.get(userId)).setRegistrationNumber(entry.nextInt());}
+        if (users.get(userId) instanceof Professor){
+            if (decision == 5){ ((Professor) users.get(userId)).setClassesQuantity(entry.nextInt()); }
+            else if (decision == 6){ entry.nextLine(); ((Professor) users.get(userId)).setFormation(entry.nextLine()); }
+            else if (decision == 7) ((Professor) users.get(userId)).setSpecialization(entry.nextLine());
         }
         System.out.println();
     }
 
-    public static void profileChangeInfo(){
+    public void profileChangeInfo(){
         System.out.println("What information do you want to change ?");
         System.out.println("0 to None");
         System.out.println("1 to Full name");
         System.out.println("2 to Age");
         System.out.println("3 to E-mail");
-        System.out.println("4 to Registration number");
-        System.out.println("5 to Ingression year");
-        System.out.println("6 to University course");
-        System.out.println("7 yo University period");
-        System.out.println("8 to Username");
+        System.out.println("4 to Username");
+    }
+
+    public void professionProfileChangeInfo(){
+        System.out.println("5 to Number of classes");
+        System.out.println("6 to Formation");
+        System.out.println("7 to Specialization");
     }
 }

@@ -1,5 +1,9 @@
 package user;
 
+import classes.Classes;
+
+import java.util.ArrayList;
+
 public abstract class User {
     String cpf = new String();
     String password = new String();
@@ -8,7 +12,6 @@ public abstract class User {
     String fullName = new String();
     String email = new String();
     int age;
-
     public int getAge() { return age; }
 
     public void setAge(int age) { this.age = age; }
