@@ -1,11 +1,16 @@
 package classes;
 
+import exercises.Lesson;
+import exercises.Test;
+
 public class Classes {
     public String creator = new String();
-    int monitors[][] = new int[500][500];
+    int monitors[] = new int[500];
     public String course = new String();
-    String classUsers[] = new String[500];
+    public String classUsers[] = new String[500];
     int vacancies;
+    public Lesson lessons[] = new Lesson[500];
+    public Test tests[] = new Test[500];
 
     public int getVacancies() {
         return vacancies;

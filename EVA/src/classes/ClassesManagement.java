@@ -50,7 +50,7 @@ public class ClassesManagement {
                     String searchingStudent = entry.next();
 
                     for (int j = 0; j < 500; j++) {
-                        if (searchingStudent.equals(((Professor) users.get(userId)).classes[userId][i].classUsers[i])){
+                        if (searchingStudent.equals(((Professor) users.get(userId)).classes[userId][i].classUsers[j])){
                             System.out.println("The student is already in this class.\n");
                             break;
                         }
@@ -58,7 +58,7 @@ public class ClassesManagement {
                                 for (int k = 0; k < 500; k++) {
                                     if (((Student) users.get(j)).coursesIn[k] == null) {
                                         ((Student) users.get(j)).coursesIn[k] = classSelected;
-                                        ((Professor) users.get(userId)).classes[userId][i].classUsers[i] = searchingStudent;
+                                        ((Professor) users.get(userId)).classes[userId][i].classUsers[j] = searchingStudent;
                                         ((Professor) users.get(userId)).classes[userId][i].setVacancies(((Professor) users.get(userId)).classes[userId][i].getVacancies() - 1);
                                         System.out.println("The student was sucessfully added.\n");
                                         break;
@@ -99,9 +99,9 @@ public class ClassesManagement {
                         for (int l = 0; l < 500; l++)
                             if (((Student) users.get(userId)).coursesIn[l] == null){
                                 ((Student) users.get(userId)).coursesIn[l] = ((Professor) users.get(i)).classes[i][j].course;
-                                ((Professor) users.get(userId)).classes[userId][i].classUsers[i] = users.get(userId).getUsername();
+                                ((Professor) users.get(i)).classes[i][j].classUsers[j] = ((Student) users.get(userId)).getUsername();
                                 ((Professor) users.get(i)).classes[i][j].setVacancies(((Professor) users.get(i)).classes[i][j].getVacancies() - 1);
-                                System.out.println("You succesfully entered in " + ((Professor) users.get(i)).classes[i][j].course + " class.");
+                                System.out.println("You succesfully entered in " + ((Professor) users.get(i)).classes[i][j].course + " class.\n");
                                 break;
                             }
                     }

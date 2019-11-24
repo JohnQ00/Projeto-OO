@@ -1,5 +1,6 @@
 package professor;
 import classes.Classes;
+import exercises.Lesson;
 import user.User;
 
 import java.util.ArrayList;

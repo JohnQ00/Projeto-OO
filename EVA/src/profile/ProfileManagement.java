@@ -1,6 +1,7 @@
 package profile;
 
 import professor.Professor;
+import student.MonitorManagement;
 import student.Student;
 import user.User;
 
@@ -8,10 +9,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import classes.ClassesManagement;
+import messages.Messages;
+import exercises.ExercisesManagement;
 
 public class ProfileManagement {
+
     public Scanner entry = new Scanner(System.in);
     ClassesManagement ClassesM = new ClassesManagement();
+    Messages SendingMessage = new Messages();
+    ExercisesManagement Exercises = new ExercisesManagement();
+    MonitorManagement Monitor = new MonitorManagement();
+
     public void accountOptions(int choice, User user, ArrayList<User> users){
         if (choice == 1){
             System.out.println("Do you want to create a professor or a student account ?\n[1 to Professor]\n[2 to Student]");
@@ -42,9 +50,9 @@ public class ProfileManagement {
             String password = entry.next();
 
             int userId = searchUsers(cpf,password,user,users);
-            System.out.println("Id " + userId);
+            System.out.println("Id: " + userId);
             if (userId == -1) { return; }
-            System.out.println("\nUsername: "+ users.get(userId).getUsername());
+            System.out.println("Username: "+ users.get(userId).getUsername());
             if (users.get(userId) instanceof Student)
                 System.out.println("You are a student.");
             else
@@ -63,7 +71,7 @@ public class ProfileManagement {
                 if (users.get(i).getCpf().equalsIgnoreCase("admin") && users.get(i).getPassword().equalsIgnoreCase("admin")) {
                     System.out.println("\nLogged as administrator.\n");
                 }
-                if (users.get(i).getCpf().equalsIgnoreCase(cpf) && users.get(i).getPassword().equalsIgnoreCase(password)) {
+                if (users.get(i).getCpf().equals(cpf) && users.get(i).getPassword().equals(password)) {
                     System.out.println("\nLogin was done. ");
                     return i;
                 }
@@ -90,9 +98,19 @@ public class ProfileManagement {
         if (users.get(userId) instanceof Professor) {
             System.out.println("4 to Create a class");
             System.out.println("5 to Add students");
+            System.out.println("6 to Send a message");
+            System.out.println("7 to Check your message box");
+            System.out.println("8 to Create a lesson");
+            System.out.println("9 to Create a test");
+            System.out.println("10 to Turn a student in a monitor");
+
         }
         if (users.get(userId) instanceof Student) {
             System.out.println("4 to Enter a class");
+            System.out.println("5 to Send a message");
+            System.out.println("6 to Check your message box");
+            System.out.println("7 to Answer a lesson");
+            System.out.println("8 to Answer a test");
         }
     }
 
@@ -113,16 +131,43 @@ public class ProfileManagement {
                 if (decision == 5) {
                     ClassesM.addStudents(userId, users);
                 }
+                if (decision == 6){
+                    SendingMessage.sendingMessages(userId, users);
+                }
+                if (decision == 7){
+                    SendingMessage.checkMessageBox(userId, users);
+                }
+                if (decision == 8){
+                    Exercises.lessonCreation(userId, users);
+                }
+                if (decision == 9){
+                    Exercises.testCreation(userId, users);
+                }
+                if (decision == 10){
+                    Monitor.turnIntoMonitor(userId, users);
+                }
             }
             else if (users.get(userId) instanceof Student){
                 if (decision == 4){
                     ClassesM.enterInClass(userId, users);
                 }
+                if (decision == 5){
+                    SendingMessage.sendingMessages(userId, users);
+                }
+                if (decision == 6){
+                    SendingMessage.checkMessageBox(userId, users);
+                }
+                if (decision == 7){
+                    Exercises.checkingLessons(userId, users, decision);
+                }
+                if (decision == 8){
+                    Exercises.checkingLessons(userId, users, decision);
+                }
             }
         }
     }
 
-    public void profileCreation(int userId, User user,ArrayList<User> users) { // criar perfi do studante
+    public void profileCreation(int userId, User user,ArrayList<User> users) { // criar perfil do estudante
         System.out.print("Insert your full name: ");
         entry.nextLine();
         users.get(userId).setFullName(entry.nextLine());
