@@ -102,7 +102,7 @@ public class ExercisesManagement {
         }
     }
 
-    public void printingClasses(int userId, ArrayList<User> users){
+    private void printingClasses(int userId, ArrayList<User> users){
             for (int j = 0; j< 500; j++){
                 if (((Professor) users.get(userId)).classes[userId][j] != null){
                     System.out.println(((Professor) users.get(userId)).classes[userId][j].course);

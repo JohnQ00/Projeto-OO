@@ -103,7 +103,6 @@ public class ProfileManagement {
             System.out.println("8 to Create a lesson");
             System.out.println("9 to Create a test");
             System.out.println("10 to Turn a student in a monitor");
-
         }
         if (users.get(userId) instanceof Student) {
             System.out.println("4 to Enter a class");
