@@ -5,7 +5,7 @@ import exercises.Test;
 
 public class Classes {
     public String creator = new String();
-    int monitors[] = new int[500];
+    public int monitors[] = new int[500];
     public String course = new String();
     public String classUsers[] = new String[500];
     int vacancies;

@@ -21,6 +21,7 @@ public class MonitorManagement {
         String studentToMonitor = entry.next();
         int studentIndex = searchingStudent(userId, users, classNumber, studentToMonitor);
         ((Student) users.get(studentIndex)).monitor = true;
+        ((Professor) users.get(userId)).classes[userId][classNumber].monitors[studentIndex] = studentIndex;
         System.out.println("Now "+ (users.get(studentIndex)).getUsername() + " is a monitor.\n");
     }
 

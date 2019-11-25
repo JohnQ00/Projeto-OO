@@ -6,7 +6,7 @@ public class Student extends User{
     int universityPeriod;
     int ingressionYear;
     public String coursesIn[] = new String[500];
-    boolean monitor;
+    public boolean monitor;
 
     public int getRegistrationNumber() {
         return registrationNumber;

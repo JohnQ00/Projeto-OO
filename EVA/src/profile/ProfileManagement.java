@@ -3,6 +3,7 @@ package profile;
 import professor.Professor;
 import student.MonitorManagement;
 import student.Student;
+import time.TimeRegulator;
 import user.User;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class ProfileManagement {
     Messages SendingMessage = new Messages();
     ExercisesManagement Exercises = new ExercisesManagement();
     MonitorManagement Monitor = new MonitorManagement();
+    TimeRegulator Time = new TimeRegulator();
 
     public void accountOptions(int choice, User user, ArrayList<User> users){
         if (choice == 1){
@@ -70,6 +72,7 @@ public class ProfileManagement {
             if(users.get(i) != null) {
                 if (users.get(i).getCpf().equalsIgnoreCase("admin") && users.get(i).getPassword().equalsIgnoreCase("admin")) {
                     System.out.println("\nLogged as administrator.\n");
+                    return i;
                 }
                 if (users.get(i).getCpf().equals(cpf) && users.get(i).getPassword().equals(password)) {
                     System.out.println("\nLogin was done. ");
@@ -90,27 +93,42 @@ public class ProfileManagement {
     }
 
     public void loggedOptions(int userId, ArrayList<User> users){
-        System.out.println("As a logged user,what you want to do ?");
-        System.out.println("0 to Logout");
-        System.out.println("1 to Create a profile");
-        System.out.println("2 to Edit your profile");
-        System.out.println("3 to Check your profile");
-        if (users.get(userId) instanceof Professor) {
-            System.out.println("4 to Create a class");
-            System.out.println("5 to Add students");
-            System.out.println("6 to Send a message");
-            System.out.println("7 to Check your message box");
-            System.out.println("8 to Create a lesson");
-            System.out.println("9 to Create a test");
-            System.out.println("10 to Turn a student in a monitor");
+        if (users.get(userId).getCpf().equalsIgnoreCase("admin") && users.get(userId).getPassword().equalsIgnoreCase("admin")){
+            int decisionA = 1;
+            while(true) {
+                if (decisionA == 0){break;}
+                administratorManagement(userId,users);
+                decisionA = entry.nextInt();
+            }
         }
-        if (users.get(userId) instanceof Student) {
-            System.out.println("4 to Enter a class");
-            System.out.println("5 to Send a message");
-            System.out.println("6 to Check your message box");
-            System.out.println("7 to Answer a lesson");
-            System.out.println("8 to Answer a test");
+        else {
+            System.out.println("As a logged user,what you want to do ?");
+            System.out.println("0 to Logout");
+            System.out.println("1 to Create a profile");
+            System.out.println("2 to Edit your profile");
+            System.out.println("3 to Check your profile");
+            if (users.get(userId) instanceof Professor) {
+                System.out.println("4 to Create a class");
+                System.out.println("5 to Add students");
+                System.out.println("6 to Send a message");
+                System.out.println("7 to Check your message box");
+                System.out.println("8 to Create a lesson");
+                System.out.println("9 to Create a test");
+                System.out.println("10 to Turn a student in a monitor");
+                System.out.println("11 to Make the attendance");
+            }
+            if (users.get(userId) instanceof Student) {
+                System.out.println("4 to Enter a class");
+                System.out.println("5 to Send a message");
+                System.out.println("6 to Check your message box");
+                System.out.println("7 to Answer a lesson");
+                System.out.println("8 to Answer a test");
+                if (((Student) users.get(userId)).monitor) {
+                    System.out.println("9 to Create a lesson");
+                }
+            }
         }
+
     }
 
     public void loggedDecision(int userId, User user,ArrayList<User> users){
@@ -145,8 +163,17 @@ public class ProfileManagement {
                 if (decision == 10){
                     Monitor.turnIntoMonitor(userId, users);
                 }
+                if (decision == 11){
+
+                }
             }
             else if (users.get(userId) instanceof Student){
+                if (((Student) users.get(userId)).monitor){
+                    if (decision == 9){
+                        int userIdP = Exercises.returningProfessorId(userId, users);
+                        Exercises.lessonCreation(userIdP, users);
+                    }
+                }
                 if (decision == 4){
                     ClassesM.enterInClass(userId, users);
                 }
@@ -157,12 +184,48 @@ public class ProfileManagement {
                     SendingMessage.checkMessageBox(userId, users);
                 }
                 if (decision == 7){
-                    Exercises.checkingLessons(userId, users, decision);
+                    Exercises.checkingLessonsAndTests(userId, users, decision);
                 }
                 if (decision == 8){
-                    Exercises.checkingLessons(userId, users, decision);
+                    Exercises.checkingLessonsAndTests(userId, users, decision);
                 }
             }
+        }
+    }
+
+    private void administratorManagement(int userId, ArrayList<User> users) {
+        int Y = 0;
+        int M = 0;
+        int startDayOfMonth = 0;
+        System.out.println("\nSetting the date of the system: ");
+        System.out.print("Set the year: ");
+        Y = entry.nextInt();
+        System.out.println("Which month you want to start this calendar ?");
+        M = entry.nextInt();
+        System.out.println("Which day you want to set in this calendar ? ");
+        System.out.print("Day: ");
+        startDayOfMonth = entry.nextInt();
+
+        while(true) {
+            System.out.println("Do you want to pass the day ? [0 to No] [1 to Yes]");
+            System.out.print("Type here: ");
+            int decision = entry.nextInt();
+            if (decision == 1) {
+                startDayOfMonth++;
+                M = Time.countingTime(Y, M, startDayOfMonth);
+            }
+            System.out.println("Do you want to see the date ? [0 to No] [1 to Yes]");
+            System.out.print("Type here: ");
+            decision = entry.nextInt();
+            if (decision == 1) {
+                M = Time.countingTime(Y, M, startDayOfMonth);
+            }
+
+
+            System.out.println("Press 0 to close this funcionality.");
+            int quit = entry.nextInt();
+            if (quit == 0){return;}
+
         }
     }
 

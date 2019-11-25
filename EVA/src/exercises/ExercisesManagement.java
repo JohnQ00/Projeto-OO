@@ -1,6 +1,7 @@
 package exercises;
 
 import professor.Professor;
+import student.Student;
 import user.User;
 
 import java.util.ArrayList;
@@ -29,6 +30,26 @@ public class ExercisesManagement {
         int questions = entry.nextInt();
         creatingQuestions(userId, users, questions, classId);
         System.out.println("Lesson has been created.");
+    }
+
+    public int returningProfessorId(int userId, ArrayList<User> users){
+        System.out.println("Showing your classes: ");
+        for (int i = 0; i < 500; i++){
+            if (((Student) users.get(userId)).coursesIn[i] != null){
+                System.out.println(((Student) users.get(userId)).coursesIn[i]);
+            }
+        }
+        System.out.print("Choose a class: ");
+        String choice = entry.next();
+        for (int i = 0; i < 500; i++){
+            for (int j = 0; j < 500; j++){
+                if (choice.equals(((Professor) users.get(i)).classes[i][j].course)){
+                    System.out.println("Class selected.\n");
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     public void testCreation(int userId, ArrayList<User> users){
@@ -121,7 +142,7 @@ public class ExercisesManagement {
             return -1;
     }
 
-    public void checkingLessons(int userId, ArrayList<User> users, int decision){
+    public void checkingLessonsAndTests(int userId, ArrayList<User> users, int decision){
         int x = 0;
         if (decision == 8){ yourClassesTests(userId, users, 2);}
         else{yourClasses(userId, users, x);}
@@ -176,7 +197,7 @@ public class ExercisesManagement {
                 }
             }
         }
-        System.out.println("No more tests.");
+        System.out.println("No more tests.\n");
     }
 
     private void checkingClassesLessons(int userId, ArrayList<User> users, int id1, int id2) {
@@ -191,7 +212,7 @@ public class ExercisesManagement {
                     }
             }
         }
-        System.out.println("No more lessons.");
+        System.out.println("No more lessons.\n");
     }
 
     private void printingQuestions(int userId, ArrayList<User> users, int id1, int id2, int id3) {
