@@ -2,6 +2,7 @@ package classes;
 
 import exercises.Lesson;
 import exercises.Test;
+import profile.Attendance;
 
 public class Classes {
     public String creator = new String();
@@ -11,6 +12,7 @@ public class Classes {
     int vacancies;
     public Lesson lessons[] = new Lesson[500];
     public Test tests[] = new Test[500];
+    public Attendance attendances[] = new Attendance[500];
 
     public int getVacancies() {
         return vacancies;

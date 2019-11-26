@@ -14,6 +14,8 @@ public class ExercisesManagement {
 
     public void lessonCreation(int userId, ArrayList<User> users){
         lesson = new Lesson();
+        System.out.println("\n[ One lesson for each login. ]");
+        System.out.println("[ Don't overload your students.]\n");
         System.out.println("Here's the list of your classes: ");
         printingClasses(userId, users);
         System.out.println("Choose a class to send a lesson: ");
@@ -54,6 +56,8 @@ public class ExercisesManagement {
 
     public void testCreation(int userId, ArrayList<User> users){
         test = new Test();
+        System.out.println("\n[ One test for each login. ]");
+        System.out.println("[ Don't overload your students.]\n");
         System.out.println("Here's the list of your classes: ");
         printingClasses(userId, users);
         System.out.println("Choose a class to send a test: ");
@@ -123,7 +127,7 @@ public class ExercisesManagement {
         }
     }
 
-    private void printingClasses(int userId, ArrayList<User> users){
+    public void printingClasses(int userId, ArrayList<User> users){
             for (int j = 0; j< 500; j++){
                 if (((Professor) users.get(userId)).classes[userId][j] != null){
                     System.out.println(((Professor) users.get(userId)).classes[userId][j].course);
@@ -249,6 +253,7 @@ public class ExercisesManagement {
         }
         int percentage = (countingCorrect/((Professor)users.get(id1)).classes[id1][id2].lessons[id3].numberofQuestions) * 100;
         System.out.println("Percentage of right answers: " + percentage + "%");
+        percentage = 0;
 
     }
 

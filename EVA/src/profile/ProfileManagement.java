@@ -1,9 +1,11 @@
 package profile;
 
+import classes.AttendanceManagement;
+import exercises.ReportCardManagement;
 import professor.Professor;
 import student.MonitorManagement;
 import student.Student;
-import time.TimeRegulator;
+import time.TimeCounter;
 import user.User;
 
 import java.util.ArrayList;
@@ -20,10 +22,13 @@ public class ProfileManagement {
     Messages SendingMessage = new Messages();
     ExercisesManagement Exercises = new ExercisesManagement();
     MonitorManagement Monitor = new MonitorManagement();
-    TimeRegulator Time = new TimeRegulator();
+    AttendanceManagement Attendance = new AttendanceManagement();
+    ReportCardManagement ReportCard = new ReportCardManagement();
+    TimeCounter TimeC = new TimeCounter();
 
     public void accountOptions(int choice, User user, ArrayList<User> users){
         if (choice == 1){
+            System.out.println("\nTo enter as a administrator just use 'admin' in all credentials.\n");
             System.out.println("Do you want to create a professor or a student account ?\n[1 to Professor]\n[2 to Student]");
             System.out.print("Type here: ");
             int accountDecision = entry.nextInt();
@@ -94,15 +99,30 @@ public class ProfileManagement {
 
     public void loggedOptions(int userId, ArrayList<User> users){
         if (users.get(userId).getCpf().equalsIgnoreCase("admin") && users.get(userId).getPassword().equalsIgnoreCase("admin")){
-            int decisionA = 1;
             while(true) {
-                if (decisionA == 0){break;}
-                administratorManagement(userId,users);
-                decisionA = entry.nextInt();
+                System.out.println("Exit the time management ?");
+                System.out.println("Type: ");
+                String exit = entry.next();
+                if (exit.equalsIgnoreCase("Yes")){break;}
+
+                System.out.println("Do you want to see the date ?");
+                System.out.print("Type: ");
+                String decisionTime = entry.next();
+                if (decisionTime.equalsIgnoreCase("Yes")) {
+                    TimeC.getDate();
+                }
+
+                System.out.println("Do you want to pass the day ?");
+                System.out.print("Type: ");
+                String decisionTime0 = entry.next();
+                if (decisionTime0.equalsIgnoreCase("Yes")){
+                    TimeC.passDay();
+                }
             }
         }
         else {
-            System.out.println("As a logged user,what you want to do ?");
+            TimeC.getDate();
+            System.out.println("\nAs a logged user,what you want to do ?");
             System.out.println("0 to Logout");
             System.out.println("1 to Create a profile");
             System.out.println("2 to Edit your profile");
@@ -123,6 +143,7 @@ public class ProfileManagement {
                 System.out.println("6 to Check your message box");
                 System.out.println("7 to Answer a lesson");
                 System.out.println("8 to Answer a test");
+                System.out.println("9 to See the report card");
                 if (((Student) users.get(userId)).monitor) {
                     System.out.println("9 to Create a lesson");
                 }
@@ -164,7 +185,9 @@ public class ProfileManagement {
                     Monitor.turnIntoMonitor(userId, users);
                 }
                 if (decision == 11){
-
+                    int actualDay = TimeC.getDay();
+                    int actualMonth = TimeC.getMonth() + 1;
+                    Attendance.MakingTheAttendance(userId, users, actualDay, actualMonth);
                 }
             }
             else if (users.get(userId) instanceof Student){
@@ -189,43 +212,10 @@ public class ProfileManagement {
                 if (decision == 8){
                     Exercises.checkingLessonsAndTests(userId, users, decision);
                 }
+                if (decision == 9){
+                    ReportCard.checkingReportCard(userId, users);
+                }
             }
-        }
-    }
-
-    private void administratorManagement(int userId, ArrayList<User> users) {
-        int Y = 0;
-        int M = 0;
-        int startDayOfMonth = 0;
-        System.out.println("\nSetting the date of the system: ");
-        System.out.print("Set the year: ");
-        Y = entry.nextInt();
-        System.out.println("Which month you want to start this calendar ?");
-        M = entry.nextInt();
-        System.out.println("Which day you want to set in this calendar ? ");
-        System.out.print("Day: ");
-        startDayOfMonth = entry.nextInt();
-
-        while(true) {
-            System.out.println("Do you want to pass the day ? [0 to No] [1 to Yes]");
-            System.out.print("Type here: ");
-            int decision = entry.nextInt();
-            if (decision == 1) {
-                startDayOfMonth++;
-                M = Time.countingTime(Y, M, startDayOfMonth);
-            }
-            System.out.println("Do you want to see the date ? [0 to No] [1 to Yes]");
-            System.out.print("Type here: ");
-            decision = entry.nextInt();
-            if (decision == 1) {
-                M = Time.countingTime(Y, M, startDayOfMonth);
-            }
-
-
-            System.out.println("Press 0 to close this funcionality.");
-            int quit = entry.nextInt();
-            if (quit == 0){return;}
-
         }
     }
 

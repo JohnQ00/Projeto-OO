@@ -33,7 +33,7 @@ public class MonitorManagement {
         }
     }
 
-    private void printingStudents(int userId, ArrayList<User> users, int classN) {
+    public void printingStudents(int userId, ArrayList<User> users, int classN) {
         System.out.println("The students of " + ((Professor) users.get(userId)).classes[userId][classN].course + " class: ");
         for (int i = 0; i < 500; i++) {
                 for (int m = 0; m < 500; m++) {

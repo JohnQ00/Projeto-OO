@@ -1,14 +1,10 @@
 package main;
 
-import professor.Professor;
-import student.Student;
 import user.User;
 import profile.ProfileManagement;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import profile.ProfileManagement;
 
 public class MainPage {
 
