@@ -80,7 +80,7 @@ public class ExercisesManagement {
 
     private void creatingtTestQuestions(int userId, ArrayList<User> users, int questions, int classId, int testN) {
         for (int i = 0; i < questions;i++){
-            ((Professor) users.get(userId)).classes[userId][classId].tests[i].testNumber = testN;
+            ((Professor) users.get(userId)).classes[userId][classId].tests[classId].testNumber = testN;
 
             ((Professor) users.get(userId)).classes[userId][classId].tests[classId].numberofQuestions = questions;
             System.out.println("Write the wording of the question:");

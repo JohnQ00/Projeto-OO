@@ -50,10 +50,13 @@ public class AttendanceManagement {
     private void attendanceStudent(int userId, ArrayList<User> users, int classId, int attendanceId) {
         System.out.println("Mark if the student is on the class: ");
         String inOrOut = entry.next();
+        ((Professor) users.get(userId)).classes[userId][classId].attendances[attendanceId].attendanceNumber++;
         if (inOrOut.equalsIgnoreCase("Yes")){
             ((Professor) users.get(userId)).classes[userId][classId].attendances[attendanceId].inStudents[attendanceId] = users.get(attendanceId).getUsername();
+            ((Professor) users.get(userId)).classes[userId][classId].attendances[attendanceId].outStudents[attendanceId] = "null";
         }
         else{
+            ((Professor) users.get(userId)).classes[userId][classId].attendances[attendanceId].inStudents[attendanceId] = "null";
             ((Professor) users.get(userId)).classes[userId][classId].attendances[attendanceId].outStudents[attendanceId] = users.get(attendanceId).getUsername();
         }
     }
