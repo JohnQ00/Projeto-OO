@@ -1,5 +1,6 @@
 package exercises;
 
+import exceptions.ExceptionManagement;
 import professor.Professor;
 import student.Student;
 import user.User;
@@ -11,6 +12,7 @@ public class ExercisesManagement {
     Scanner entry = new Scanner(System.in);
     Lesson lesson = new Lesson();
     Test test = new Test();
+    ExceptionManagement Exceptions = new ExceptionManagement();
 
     public void lessonCreation(int userId, ArrayList<User> users){
         lesson = new Lesson();
@@ -21,10 +23,13 @@ public class ExercisesManagement {
         System.out.println("Choose a class to send a lesson: ");
         String classChose = entry.next();
         int classId = selectingClass(userId, users, classChose);
-        lesson.leadingCourse = classChose;
+        if(classId < 0 || classId >= 500){
+            return;
+        }
+        lesson.setLeadingCourse(classChose);
         for(int i=0; i < 500; i++) {
-            if(((Professor) users.get(userId)).classes[userId][classId].lessons[i] == null) {
-                ((Professor) users.get(userId)).classes[userId][classId].lessons[i] = lesson;
+            if(((Professor) users.get(userId)).getClasses()[userId][classId].getLessons()[i] == null) {
+                ((Professor) users.get(userId)).getClasses()[userId][classId].setLessons(lesson);
                 break;
             }
         }
@@ -37,15 +42,15 @@ public class ExercisesManagement {
     public int returningProfessorId(int userId, ArrayList<User> users){
         System.out.println("Showing your classes: ");
         for (int i = 0; i < 500; i++){
-            if (((Student) users.get(userId)).coursesIn[i] != null){
-                System.out.println(((Student) users.get(userId)).coursesIn[i]);
+            if (((Student) users.get(userId)).getCoursesIn()[i] != null){
+                System.out.println(((Student) users.get(userId)).getCoursesIn()[i]);
             }
         }
         System.out.print("Choose a class: ");
         String choice = entry.next();
         for (int i = 0; i < 500; i++){
             for (int j = 0; j < 500; j++){
-                if (choice.equals(((Professor) users.get(i)).classes[i][j].course)){
+                if (choice.equals(((Professor) users.get(i)).getClasses()[i][j].getCourse())){
                     System.out.println("Class selected.\n");
                     return i;
                 }
@@ -63,10 +68,13 @@ public class ExercisesManagement {
         System.out.println("Choose a class to send a test: ");
         String classChose = entry.next();
         int classId = selectingClass(userId, users, classChose);
-        test.leadingCourse = classChose;
+        if(classId < 0 || classId >= 500){
+            return;
+        }
+        test.setLeadingCourse(classChose);
         for(int i=0; i < 500; i++) {
-            if(((Professor) users.get(userId)).classes[userId][classId].tests[i] == null) {
-                ((Professor) users.get(userId)).classes[userId][classId].tests[i] = test;
+            if(((Professor) users.get(userId)).getClasses()[userId][classId].getTests()[i] == null) {
+                ((Professor) users.get(userId)).getClasses()[userId][classId].setTests(test);
                 break;
             }
         }
@@ -80,18 +88,32 @@ public class ExercisesManagement {
 
     private void creatingtTestQuestions(int userId, ArrayList<User> users, int questions, int classId, int testN) {
         for (int i = 0; i < questions;i++){
-            ((Professor) users.get(userId)).classes[userId][classId].tests[classId].testNumber = testN;
+            ((Professor) users.get(userId)).getClasses()[userId][classId].getTests()[classId].setTestNumber(testN);
 
-            ((Professor) users.get(userId)).classes[userId][classId].tests[classId].numberofQuestions = questions;
+            ((Professor) users.get(userId)).getClasses()[userId][classId].getTests()[classId].setNumberofQuestions(questions);
             System.out.println("Write the wording of the question:");
             String wording = entry.next();
 
-            ((Professor) users.get(userId)).classes[userId][classId].tests[classId].questions[i] = wording;
+            ((Professor) users.get(userId)).getClasses()[userId][classId].getTests()[classId].setQuestions(wording);
             creatingTestAlternatives(userId, users, classId,i);
 
-            System.out.println("Insert the number of the right alternative: [0 to a)][1 to b)][2 to c)][3 to d)][4 to e)]");
-            int rightAnswer = entry.nextInt();
-            ((Professor) users.get(userId)).classes[userId][classId].tests[classId].lessonAnswer[i] = rightAnswer;
+
+            while(true) {
+                System.out.print("Insert the right alternative: ");
+                String rightAnswer = entry.next();
+                if (rightAnswer.equalsIgnoreCase("a")
+                        || rightAnswer.equalsIgnoreCase("b")
+                        || rightAnswer.equalsIgnoreCase("c")
+                        || rightAnswer.equalsIgnoreCase("d")
+                        || rightAnswer.equalsIgnoreCase("e")) {
+                    ((Professor) users.get(userId)).getClasses()[userId][classId].getTests()[classId].setLessonAnswer(rightAnswer);;
+                    return;
+                }
+                else {
+                    System.out.println("Enter a valid alternative.");
+                }
+            }
+
         }
     }
 
@@ -99,23 +121,36 @@ public class ExercisesManagement {
         for (int i = 0; i < 5; i++){
             System.out.println("Insert the alternative text: ");
             String alternatives = entry.next();
-            ((Professor) users.get(userId)).classes[userId][classId].tests[classId].alternatives[questionNumber][i] = alternatives;
+            ((Professor) users.get(userId)).getClasses()[userId][classId].getTests()[classId].alternatives[questionNumber][i] = alternatives;
         }
     }
 
     private void creatingQuestions(int userId, ArrayList<User> users, int questions, int classId) {
         for (int i = 0; i < questions;i++){
-            ((Professor) users.get(userId)).classes[userId][classId].lessons[classId].numberofQuestions = questions;
+            ((Professor) users.get(userId)).getClasses()[userId][classId].getLessons()[classId].setNumberofQuestions(questions);
 
             System.out.println("Write the wording of the question:");
             String wording = entry.next();
 
-            ((Professor) users.get(userId)).classes[userId][classId].lessons[classId].questions[i] = wording;
+            ((Professor) users.get(userId)).getClasses()[userId][classId].getLessons()[classId].setQuestions(wording);
             creatingAlternatives(userId, users, classId,i);
 
-            System.out.println("Insert the number of the right alternative: [0 to a)][1 to b)][2 to c)][3 to d)][4 to e)]");
-            int rightAnswer = entry.nextInt();
-            ((Professor) users.get(userId)).classes[userId][classId].lessons[classId].lessonAnswer[i] = rightAnswer;
+            while(true) {
+                System.out.print("Insert the right alternative: ");
+                String rightAnswer = entry.next();
+                if (rightAnswer.equalsIgnoreCase("a")
+                        || rightAnswer.equalsIgnoreCase("b")
+                        || rightAnswer.equalsIgnoreCase("c")
+                        || rightAnswer.equalsIgnoreCase("d")
+                        || rightAnswer.equalsIgnoreCase("e")) {
+                    ((Professor) users.get(userId)).getClasses()[userId][classId].getLessons()[classId].setLessonAnswer(rightAnswer);
+                    return;
+                }
+                else {
+                    System.out.println("Enter a valid alternative.");
+                }
+            }
+
         }
     }
 
@@ -123,27 +158,32 @@ public class ExercisesManagement {
         for (int i = 0; i < 5; i++){
             System.out.println("Insert the alternative text: ");
             String alternatives = entry.next();
-            ((Professor) users.get(userId)).classes[userId][classId].lessons[classId].alternatives[questionNumber][i] = alternatives;
+            ((Professor) users.get(userId)).getClasses()[userId][classId].getLessons()[classId].alternatives[questionNumber][i] = alternatives;
         }
     }
 
     public void printingClasses(int userId, ArrayList<User> users){
-            for (int j = 0; j< 500; j++){
-                if (((Professor) users.get(userId)).classes[userId][j] != null){
-                    System.out.println(((Professor) users.get(userId)).classes[userId][j].course);
-                }
+        for (int j = 0; j< 500; j++){
+            if (((Professor) users.get(userId)).getClasses()[userId][j] != null){
+                System.out.println(((Professor) users.get(userId)).getClasses()[userId][j].getCourse());
             }
+        }
     }
 
     public int selectingClass(int userId, ArrayList<User> users, String classChose){
-            for (int j = 0; j< 500; j++){
-                if (((Professor) users.get(userId)).classes[userId][j] != null) {
-                    if (classChose.equals(((Professor) users.get(userId)).classes[userId][j].course)){
-                        return j;
-                    }
+        for (int j = 0; j< 500; j++){
+            if (((Professor) users.get(userId)).getClasses()[userId][j] != null) {
+                if (classChose.equals(((Professor) users.get(userId)).getClasses()[userId][j].getCourse())){
+                    return j;
                 }
             }
-            return -1;
+            else{
+                System.out.println("The class doesn't exist.\n");
+                return j;
+            }
+        }
+
+        return 500;
     }
 
     public void checkingLessonsAndTests(int userId, ArrayList<User> users, int decision){
@@ -157,10 +197,10 @@ public class ExercisesManagement {
         for (int i = 0; i < 500; i++){
             for (int j = 0; j < 500; j++) {
                 for (int k = 0; k < 500; k++){
-                    if(((Professor) users.get(i)).classes[i][j] != null){
-                        if (users.get(userId).getUsername().equals(((Professor) users.get(i)).classes[i][j].classUsers[k])){
+                    if(((Professor) users.get(i)).getClasses()[i][j] != null){
+                        if (users.get(userId).getUsername().equals(((Professor) users.get(i)).getClasses()[i][j].getClassUsers()[k])){
                             System.out.println("The classes you are in: ");
-                            System.out.println(((Professor) users.get(i)).classes[i][j].course);
+                            System.out.println(((Professor) users.get(i)).getClasses()[i][j].getCourse());
                             checkingClassesTests(userId, users, i, j, lessonOrTest);
                         }
                     }
@@ -175,10 +215,10 @@ public class ExercisesManagement {
         for (int i = 0; i < 500; i++){
             for (int j = 0; j < 500; j++) {
                 for (int k = 0; k < 500; k++){
-                    if(((Professor) users.get(i)).classes[i][j] != null){
-                        if (users.get(userId).getUsername().equals(((Professor) users.get(i)).classes[i][j].classUsers[k])){
+                    if(((Professor) users.get(i)).getClasses()[i][j] != null){
+                        if (users.get(userId).getUsername().equals(((Professor) users.get(i)).getClasses()[i][j].getClassUsers()[k])){
                             System.out.println("The classes you are in: ");
-                            System.out.println(((Professor) users.get(i)).classes[i][j].course);
+                            System.out.println(((Professor) users.get(i)).getClasses()[i][j].getCourse());
                             checkingClassesLessons(userId, users, i, j);
                         }
                     }
@@ -190,12 +230,11 @@ public class ExercisesManagement {
     }
 
     private void checkingClassesTests(int userId, ArrayList<User> users, int id1, int id2, int lessonOrTest) {
-        System.out.println("Checking " + ((Professor) users.get(id1)).classes[id1][id2].course + " tests.");
+        System.out.println("Checking " + ((Professor) users.get(id1)).getClasses()[id1][id2].getCourse() + " tests.");
         for (int i = 0; i < 500; i++){
-            if(((Professor) users.get(id1)).classes[id1][id2].tests[i] != null){
+            if(((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[i] != null){
                 System.out.println("Do you wish to answer this test now ? [0 to No][1 to Yes]");
-                System.out.print("Type here: ");
-                int decision = entry.nextInt();
+                int decision = Exceptions.scanInt("Type here: ");
                 if (decision == 1) {
                     printingTestQuestions(userId, users, id1, id2, i,lessonOrTest);
                 }
@@ -205,15 +244,14 @@ public class ExercisesManagement {
     }
 
     private void checkingClassesLessons(int userId, ArrayList<User> users, int id1, int id2) {
-        System.out.println("Checking " + ((Professor) users.get(id1)).classes[id1][id2].course + " lessons.");
+        System.out.println("Checking " + ((Professor) users.get(id1)).getClasses()[id1][id2].getCourse() + " lessons.");
         for (int i = 0; i < 500; i++){
-            if(((Professor) users.get(id1)).classes[id1][id2].lessons[i] != null){
-                    System.out.println("Do you wish to answer this lesson now ? [0 to No][1 to Yes]");
-                    System.out.print("Type here: ");
-                    int decision = entry.nextInt();
-                    if (decision == 1) {
-                        printingQuestions(userId, users, id1, id2, i);
-                    }
+            if(((Professor) users.get(id1)).getClasses()[id1][id2].getLessons()[i] != null){
+                System.out.println("Do you wish to answer this lesson now ? [0 to No][1 to Yes]");
+                int decision = Exceptions.scanInt("Type here: ");
+                if (decision == 1) {
+                    printingQuestions(userId, users, id1, id2, i);
+                }
             }
         }
         System.out.println("No more lessons.\n");
@@ -221,29 +259,29 @@ public class ExercisesManagement {
 
     private void printingQuestions(int userId, ArrayList<User> users, int id1, int id2, int id3) {
         int countingCorrect = 0;
-        for (int i = 0; i < ((Professor)users.get(id1)).classes[id1][id2].lessons[id3].numberofQuestions ;i++){
-            if (((Professor)users.get(id1)).classes[id1][id2].lessons[id3].questions[i] != null) {
+        for (int i = 0; i < ((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].getNumberofQuestions() ;i++){
+            if (((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].getQuestions()[i] != null) {
                 System.out.println("Showing the lesson's wording: ");
-                System.out.println(((Professor) users.get(id1)).classes[id1][id2].lessons[id3].questions[i]);
+                System.out.println(((Professor) users.get(id1)).getClasses()[id1][id2].getLessons()[id3].getQuestions()[i]);
             }
             for (int j = 0; j < 5;j++){
-                if (((Professor)users.get(id1)).classes[id1][id2].lessons[id3].alternatives[i][j] != null) {
+                if (((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].alternatives[i][j] != null) {
                     if (j == 0)
-                        System.out.println("a)" + ((Professor)users.get(id1)).classes[id1][id2].lessons[id3].alternatives[i][j]);
+                        System.out.println("a)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].alternatives[i][j]);
                     else if (j == 1)
-                        System.out.println("b)" + ((Professor)users.get(id1)).classes[id1][id2].lessons[id3].alternatives[i][j]);
+                        System.out.println("b)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].alternatives[i][j]);
                     else if (j == 2)
-                        System.out.println("c)" + ((Professor)users.get(id1)).classes[id1][id2].lessons[id3].alternatives[i][j]);
+                        System.out.println("c)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].alternatives[i][j]);
                     else if (j == 3)
-                        System.out.println("d)" + ((Professor)users.get(id1)).classes[id1][id2].lessons[id3].alternatives[i][j]);
+                        System.out.println("d)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].alternatives[i][j]);
                     else if (j == 4)
-                        System.out.println("e)" + ((Professor)users.get(id1)).classes[id1][id2].lessons[id3].alternatives[i][j]);
+                        System.out.println("e)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].alternatives[i][j]);
                 }
             }
             System.out.println("\nType your answer: [0 to a)][1 to b)][2 to c)][3 to d)][4 to e)]");
-            int answer = entry.nextInt();
+            String answer = entry.next();
 
-            if (answer == ((Professor)users.get(id1)).classes[id1][id2].lessons[id3].lessonAnswer[i]){
+            if (answer.equalsIgnoreCase(((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].getLessonAnswer()[i])){
                 System.out.println("You are correct.");
                 countingCorrect++;
             }
@@ -251,7 +289,7 @@ public class ExercisesManagement {
                 System.out.println("You are wrong.");
             }
         }
-        int percentage = (countingCorrect/((Professor)users.get(id1)).classes[id1][id2].lessons[id3].numberofQuestions) * 100;
+        int percentage = (countingCorrect/((Professor)users.get(id1)).getClasses()[id1][id2].getLessons()[id3].getNumberofQuestions()) * 100;
         System.out.println("Percentage of right answers: " + percentage + "%");
         percentage = 0;
 
@@ -259,32 +297,32 @@ public class ExercisesManagement {
 
     private void printingTestQuestions(int userId, ArrayList<User> users, int id1, int id2, int id3, int lessonOrTest) {
         int countingCorrect = 0;
-        for (int i = 0; i < ((Professor)users.get(id1)).classes[id1][id2].tests[id3].numberofQuestions ;i++){
-            if (((Professor)users.get(id1)).classes[id1][id2].tests[id3].questions[i] != null) {
+        for (int i = 0; i < ((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].getNumberofQuestions() ;i++){
+            if (((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].getQuestions()[i] != null) {
                 System.out.println("\nShowing the test's wording: ");
-                System.out.println(((Professor) users.get(id1)).classes[id1][id2].tests[id3].questions[i]);
+                System.out.println(((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[id3].getQuestions()[i]);
             }
             for (int j = 0; j < 5;j++){
-                if (((Professor)users.get(id1)).classes[id1][id2].tests[id3].alternatives[i][j] != null) {
+                if (((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].alternatives[i][j] != null) {
                     if (j == 0)
-                        System.out.println("a)" + ((Professor)users.get(id1)).classes[id1][id2].tests[id3].alternatives[i][j]);
+                        System.out.println("a)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].alternatives[i][j]);
                     else if (j == 1)
-                        System.out.println("b)" + ((Professor)users.get(id1)).classes[id1][id2].tests[id3].alternatives[i][j]);
+                        System.out.println("b)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].alternatives[i][j]);
                     else if (j == 2)
-                        System.out.println("c)" + ((Professor)users.get(id1)).classes[id1][id2].tests[id3].alternatives[i][j]);
+                        System.out.println("c)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].alternatives[i][j]);
                     else if (j == 3)
-                        System.out.println("d)" + ((Professor)users.get(id1)).classes[id1][id2].tests[id3].alternatives[i][j]);
+                        System.out.println("d)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].alternatives[i][j]);
                     else if (j == 4)
-                        System.out.println("e)" + ((Professor)users.get(id1)).classes[id1][id2].tests[id3].alternatives[i][j]);
+                        System.out.println("e)" + ((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].alternatives[i][j]);
                 }
             }
             System.out.println("\nType your answer: [0 to a)][1 to b)][2 to c)][3 to d)][4 to e)]");
-            int answer = entry.nextInt();
-                if (answer == ((Professor)users.get(id1)).classes[id1][id2].tests[id3].lessonAnswer[i]){ countingCorrect++; }
+            String answer = entry.next();
+            if (answer.equalsIgnoreCase(((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[id3].getLessonAnswer()[i])){ countingCorrect++; }
         }
-        float grade = ((countingCorrect * 10) / ((Professor) users.get(id1)).classes[id1][id2].tests[id3].numberofQuestions);
-        ((Professor) users.get(id1)).classes[id1][id2].tests[id3].testPoints[((Professor) users.get(id1)).classes[id1][id2].tests[id3].testNumber] = grade;
-
+        float grade = ((countingCorrect * 10) / ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[id3].getNumberofQuestions());
+        int testPIndex = ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[id3].getTestNumber();
+        ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[id3].setTestPoints(grade);
     }
 
 }

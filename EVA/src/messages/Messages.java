@@ -1,8 +1,5 @@
 package messages;
 
-import professor.Professor;
-import profile.ProfileManagement;
-import student.Student;
 import user.User;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,10 +10,14 @@ public class Messages {
         System.out.print("Type here a user's username to send a message: ");
         String username = entry.next();
             int k;
+        System.out.print("Searching...");
             for (k = 0; k < 500; k++){
                 if (username.equals((users.get(k).getUsername()))){
                     System.out.println("User was found.");
                     break;
+                }
+                else{
+                    System.out.println(".");
                 }
             }
             for (int j = 0; j < 500;j++) {

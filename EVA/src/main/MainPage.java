@@ -1,5 +1,6 @@
 package main;
 
+import exceptions.ExceptionManagement;
 import user.User;
 import profile.ProfileManagement;
 
@@ -12,6 +13,7 @@ public class MainPage {
     public final int max = 500;
     ArrayList<User> users = new ArrayList<User>(max);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ExceptionManagement Exceptions = new ExceptionManagement();
     ProfileManagement ProfileM = new ProfileManagement();
     public User user;
 
@@ -20,8 +22,7 @@ public class MainPage {
     public void Init(){
     while(true){
         TextOptions.options();
-        System.out.print("Type here: ");
-        int choice = input.nextInt();
+        int choice = Exceptions.scanInt("Type here: ");
         if(choice == 0){
             System.out.println("\nClosing the system.");
             break;

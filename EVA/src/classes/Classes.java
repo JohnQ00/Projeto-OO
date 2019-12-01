@@ -5,22 +5,19 @@ import exercises.Test;
 import profile.Attendance;
 
 public class Classes {
-    public String creator = new String();
+    private int index = 0;
+    private int aIndex = 0;
+    private int lessonsIndex = 0;
+    private int testsIndex = 0;
+    private int classUsersIndex = 0;
+    private String creator = new String();
     public int monitors[] = new int[500];
-    public String course = new String();
-    public String classUsers[] = new String[500];
-    int vacancies;
-    public Lesson lessons[] = new Lesson[500];
-    public Test tests[] = new Test[500];
-    public Attendance attendances[] = new Attendance[500];
-
-    public int getVacancies() {
-        return vacancies;
-    }
-
-    public void setVacancies(int vacancies) {
-        this.vacancies = vacancies;
-    }
+    private String course = new String();
+    private String classUsers[] = new String[500];
+    private int vacancies;
+    private Lesson lessons[] = new Lesson[500];
+    private Test tests[] = new Test[500];
+    private Attendance attendances[] = new Attendance[500];
 
     public String getCreator() {
         return creator;
@@ -30,11 +27,64 @@ public class Classes {
         this.creator = creator;
     }
 
+//    public int[] getMonitors() {
+//        return monitors;
+//    }
+//
+//    public void setMonitors(int monitors) {
+//        this.monitors[index] = monitors;
+//        index++;
+//    }
+
     public String getCourse() {
         return course;
     }
 
     public void setCourse(String course) {
         this.course = course;
+    }
+
+    public String[] getClassUsers() {
+        return classUsers;
+    }
+
+    public void setClassUsers(String classUsers) {
+        this.classUsers[classUsersIndex] = classUsers;
+        classUsersIndex++;
+    }
+
+    public int getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(int vacancies) {
+        this.vacancies = vacancies;
+    }
+
+    public Lesson[] getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Lesson lessons) {
+        this.lessons[lessonsIndex] = lessons;
+        lessonsIndex++;
+    }
+
+    public Test[] getTests() {
+        return tests;
+    }
+
+    public void setTests(Test tests) {
+        this.tests[testsIndex] = tests;
+        testsIndex++;
+    }
+
+    public Attendance[] getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(Attendance attendances) {
+        this.attendances[aIndex] = attendances;
+        aIndex++;
     }
 }

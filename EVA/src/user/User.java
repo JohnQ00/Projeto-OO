@@ -1,18 +1,16 @@
 package user;
 
-import classes.Classes;
-
-import java.util.ArrayList;
-
 public abstract class User {
-    String cpf = new String();
-    String password = new String();
-    String username = new String();
+    private String cpf = new String();
+    private String password = new String();
+    private String username = new String();
 
-    String fullName = new String();
-    String email = new String();
-    int age;
+    private String fullName = new String();
+    private String email = new String();
+    private int age;
+
     public String messageBox[][][] = new String[500][500][500];
+
     public int getAge() { return age; }
 
     public void setAge(int age) { this.age = age; }
@@ -56,4 +54,5 @@ public abstract class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

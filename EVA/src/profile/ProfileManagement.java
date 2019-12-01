@@ -1,6 +1,7 @@
 package profile;
 
 import classes.AttendanceManagement;
+import exceptions.ExceptionManagement;
 import exercises.ReportCardManagement;
 import professor.Professor;
 import student.MonitorManagement;
@@ -25,17 +26,15 @@ public class ProfileManagement {
     AttendanceManagement Attendance = new AttendanceManagement();
     ReportCardManagement ReportCard = new ReportCardManagement();
     TimeCounter TimeC = new TimeCounter();
+    ExceptionManagement Exceptions = new ExceptionManagement();
 
     public void accountOptions(int choice, User user, ArrayList<User> users){
         if (choice == 1){
             System.out.println("\nTo enter as a administrator just use 'admin' in all credentials.\n");
             System.out.println("Do you want to create a professor or a student account ?\n[1 to Professor]\n[2 to Student]");
-            System.out.print("Type here: ");
-            int accountDecision = entry.nextInt();
+            int accountDecision = Exceptions.scanInt("Type here: ");
             if(accountDecision == 1)
-            {
                 user = new Professor();
-            }
             else
                 user = new Student();
 
@@ -57,7 +56,6 @@ public class ProfileManagement {
             String password = entry.next();
 
             int userId = searchUsers(cpf,password,user,users);
-            System.out.println("Id: " + userId);
             if (userId == -1) { return; }
             System.out.println("Username: "+ users.get(userId).getUsername());
             if (users.get(userId) instanceof Student)
@@ -144,8 +142,8 @@ public class ProfileManagement {
                 System.out.println("7 to Answer a lesson");
                 System.out.println("8 to Answer a test");
                 System.out.println("9 to See the report card");
-                if (((Student) users.get(userId)).monitor) {
-                    System.out.println("9 to Create a lesson");
+                if (((Student) users.get(userId)).monitor == true) {
+                    System.out.println("10 to Create a lesson");
                 }
             }
         }
@@ -156,8 +154,7 @@ public class ProfileManagement {
         while(true) {
             loggedOptions(userId, users);
             System.out.println();
-            System.out.print("Type here: ");
-            int decision = entry.nextInt();
+            int decision = Exceptions.scanInt("Type here: ");
             if (decision == 0) {return;}
             else if (decision == 1) { profileCreation(userId, user, users);}
             else if (decision == 2) { profileChange(userId, user, users);}
@@ -191,8 +188,8 @@ public class ProfileManagement {
                 }
             }
             else if (users.get(userId) instanceof Student){
-                if (((Student) users.get(userId)).monitor){
-                    if (decision == 9){
+                if (((Student) users.get(userId)).monitor == true){
+                    if (decision == 10){
                         int userIdP = Exercises.returningProfessorId(userId, users);
                         Exercises.lessonCreation(userIdP, users);
                     }
@@ -222,30 +219,25 @@ public class ProfileManagement {
     public void profileCreation(int userId, User user,ArrayList<User> users) { // criar perfil do estudante
         System.out.print("Insert your full name: ");
         entry.nextLine();
-        users.get(userId).setFullName(entry.nextLine());
-        System.out.print("Insert your age: ");
-        users.get(userId).setAge(entry.nextInt());
+        users.get(userId).setFullName(entry.nextLine());//
+        users.get(userId).setAge(Exceptions.scanInt("Insert your age: "));//
         System.out.print("Insert your e-mail: ");
-        users.get(userId).setEmail(entry.next());
+        users.get(userId).setEmail(entry.next());//
         if (users.get(userId) instanceof Professor) {
-            System.out.print("Insert your number of classes: ");
-            ((Professor) users.get(userId)).setClassesQuantity(entry.nextInt());
+            ((Professor) users.get(userId)).setClassesQuantity(Exceptions.scanInt("Insert your number of classes: "));
             entry.nextLine();
             System.out.print("Insert your formation: ");
             ((Professor) users.get(userId)).setFormation(entry.nextLine());
-            System.out.print("Insert your specialization: ");
+            System.out.print("Insert your specialization area: ");
             ((Professor) users.get(userId)).setSpecialization(entry.nextLine());
         }
         else{
-            System.out.print("Insert your registration number: ");
-            ((Student) users.get(userId)).setRegistrationNumber(entry.nextInt());
+            ((Student) users.get(userId)).setRegistrationNumber(Exceptions.scanInt("Insert your registration number: "));
             entry.nextLine();
             System.out.print("Insert your University course: ");
             ((Student) users.get(userId)).setUniversityDiscipline(entry.nextLine());
-            System.out.print("Insert your Course period: ");
-            ((Student) users.get(userId)).setUniversityPeriod(entry.nextInt());
-            System.out.print("Insert your ingression year: ");
-            ((Student) users.get(userId)).setIngressionYear(entry.nextInt());
+            ((Student) users.get(userId)).setUniversityPeriod(Exceptions.scanInt("Insert your Course period: "));
+            ((Student) users.get(userId)).setIngressionYear(Exceptions.scanInt("Insert your ingression year: "));
             System.out.println();
         }
 
@@ -258,11 +250,11 @@ public class ProfileManagement {
         if (decision.equalsIgnoreCase("Yes")){
 
             System.out.print("\nFull name: ");
-            System.out.println(users.get(userId).getFullName());
+            System.out.println(users.get(userId).getFullName());//
             System.out.print("Age: ");
-            System.out.println(users.get(userId).getAge());
+            System.out.println(users.get(userId).getAge());//
             System.out.print("E-mail: ");
-            System.out.println(users.get(userId).getEmail());
+            System.out.println(users.get(userId).getEmail());//
 
             if (users.get(userId) instanceof Student) {
                 System.out.print("Registration number: ");
@@ -295,20 +287,19 @@ public class ProfileManagement {
         if (users.get(userId) instanceof Student) { System.out.println("5 to Registration number"); }
         else { professionProfileChangeInfo(); }
 
-        System.out.print("Type here: ");
-        int decision = entry.nextInt();
+        int decision = Exceptions.scanInt("Type here: ");
 
         System.out.print("Type here: ");
         if (decision == 0){return; }
-        if (decision == 1){ entry.nextLine(); users.get(userId).setFullName(entry.nextLine()); }
-        else if (decision == 2){ users.get(userId).setAge(entry.nextInt()); }
-        else if (decision == 3){ users.get(userId).setEmail(entry.next()); }
-        else if (decision == 4){ entry.nextLine(); users.get(userId).setUsername(entry.nextLine());}
+        if (decision == 1){ entry.nextLine(); users.get(userId).setFullName(entry.nextLine()); }//
+        else if (decision == 2){ users.get(userId).setAge(Exceptions.scanInt("Type here: ")); }//
+        else if (decision == 3){ users.get(userId).setEmail(entry.next()); }//
+        else if (decision == 4){ entry.nextLine(); users.get(userId).setUsername(entry.nextLine());}//
 
         if (users.get(userId) instanceof Student)
-            if (decision == 5){ ((Student) users.get(userId)).setRegistrationNumber(entry.nextInt());}
+            if (decision == 5){ ((Student) users.get(userId)).setRegistrationNumber(Exceptions.scanInt("Type here: "));}
         if (users.get(userId) instanceof Professor){
-            if (decision == 5){ ((Professor) users.get(userId)).setClassesQuantity(entry.nextInt()); }
+            if (decision == 5){ ((Professor) users.get(userId)).setClassesQuantity(Exceptions.scanInt("Type here: ")); }
             else if (decision == 6){ entry.nextLine(); ((Professor) users.get(userId)).setFormation(entry.nextLine()); }
             else if (decision == 7) ((Professor) users.get(userId)).setSpecialization(entry.nextLine());
         }
