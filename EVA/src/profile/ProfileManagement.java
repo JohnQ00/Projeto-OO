@@ -39,21 +39,25 @@ public class ProfileManagement {
                 user = new Student();
 
             System.out.print("CPF: ");
-            user.setCpf(entry.next());
+            String cpf = entry.nextLine();
+            user.setCpf(cpf);
             System.out.print("Username: ");
-            user.setUsername(entry.next());
+            String username = entry.nextLine();
+            user.setUsername(username);
             System.out.print("Password: ");
-            user.setPassword(entry.next());
+            String password = entry.nextLine();
+            user.setPassword(password);
             System.out.println();
+            if (searchEquals(cpf, username, user, users) == -1){return;}
             users.add(user);
 
             System.out.println("You succesfully created an account.");
         }
         if (choice == 2){
             System.out.print("CPF: ");
-            String cpf = entry.next();
+            String cpf = entry.nextLine();
             System.out.print("Password: ");
-            String password = entry.next();
+            String password = entry.nextLine();
 
             int userId = searchUsers(cpf,password,user,users);
             if (userId == -1) { return; }
@@ -85,6 +89,25 @@ public class ProfileManagement {
         }
         System.out.println("\nLogin was not done.\n");
         return -1;
+    }
+    public int searchEquals(String cpf, String username, User user, ArrayList<User> users){
+        int creationOrDontCreate = 0;
+        for (int i = 0; i < users.size(); i++) {
+            //printar(users);
+            if(users.get(i) != null) {
+                if (users.get(i).getCpf().equals(cpf)) {
+                    System.out.println("The cpf already exists.");
+                    System.out.println("Account creation denied.");
+                    creationOrDontCreate = -1;
+                }
+                if (users.get(i).getUsername().equals(username)) {
+                    System.out.println("The username already exists.");
+                    System.out.println("Account creation denied.");
+                    creationOrDontCreate = -1;
+                }
+            }
+        }
+        return creationOrDontCreate;
     }
 
     public void printar(ArrayList<User> u){
@@ -120,6 +143,9 @@ public class ProfileManagement {
         }
         else {
             TimeC.getDate();
+            if (users.get(userId) instanceof Professor) {
+                System.out.println("\nBefore send a test, make the attendance.");
+            }
             System.out.println("\nAs a logged user,what you want to do ?");
             System.out.println("0 to Logout");
             System.out.println("1 to Create a profile");
@@ -252,7 +278,10 @@ public class ProfileManagement {
             System.out.print("\nFull name: ");
             System.out.println(users.get(userId).getFullName());//
             System.out.print("Age: ");
-            System.out.println(users.get(userId).getAge());//
+            if (users.get(userId).getAge() < 18)
+                System.out.println("Lower than 18.");
+            else
+                System.out.println(users.get(userId).getAge());//
             System.out.print("E-mail: ");
             System.out.println(users.get(userId).getEmail());//
 

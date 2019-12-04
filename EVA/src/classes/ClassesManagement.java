@@ -36,7 +36,7 @@ public class ClassesManagement {
             }
         }
         System.out.print("Type here: ");
-        String classSelected = entry.next();
+        String classSelected = entry.nextLine();
         for(int i=0; i < 500; i++) {
             if(((Professor) users.get(userId)).getClasses()[userId][i] != null) {
                 if (classSelected.equalsIgnoreCase(((Professor) users.get(userId)).getClasses()[userId][i].getCourse())) {
@@ -53,6 +53,10 @@ public class ClassesManagement {
                             break;
                         }
                         if (searchingStudent.equalsIgnoreCase(users.get(j).getUsername())) {
+                            if (users.get(j) instanceof Professor){
+                                System.out.println("You entered a professor.");
+                                return;
+                            }
                             for (int k = 0; k < 500; k++) {
                                 if (((Student) users.get(j)).getCoursesIn()[k] == null) {
                                     ((Student) users.get(j)).getCoursesIn()[k] = classSelected;

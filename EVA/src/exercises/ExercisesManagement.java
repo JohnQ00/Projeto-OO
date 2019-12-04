@@ -21,7 +21,9 @@ public class ExercisesManagement {
         System.out.println("Here's the list of your classes: ");
         printingClasses(userId, users);
         System.out.println("Choose a class to send a lesson: ");
-        String classChose = entry.next();
+        String classChose = entry.nextLine();
+        System.out.println("Press enter to confirm");
+        entry.nextLine();
         int classId = selectingClass(userId, users, classChose);
         if(classId < 0 || classId >= 500){
             return;
@@ -66,7 +68,9 @@ public class ExercisesManagement {
         System.out.println("Here's the list of your classes: ");
         printingClasses(userId, users);
         System.out.println("Choose a class to send a test: ");
-        String classChose = entry.next();
+        String classChose = entry.nextLine();
+        System.out.println("Press enter to confirm");
+        entry.nextLine();
         int classId = selectingClass(userId, users, classChose);
         if(classId < 0 || classId >= 500){
             return;
@@ -293,7 +297,7 @@ public class ExercisesManagement {
 
     private void printingTestQuestions(int userId, ArrayList<User> users, int id1, int id2, int testId, int lessonOrTest, int fullQuestionNum) {
         int countingCorrect = 0;
-        for (int i = 0; i < fullQuestionNum ;i++){
+        for (int i = 0; i < ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[testId].getNumberofQuestions() ;i++){
             if (((Professor)users.get(id1)).getClasses()[id1][id2].getTests()[testId].getQuestions()[i] != null) {
                 System.out.println("\nShowing the test's wording: ");
                 System.out.println(((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[testId].getQuestions()[i]);
@@ -318,7 +322,7 @@ public class ExercisesManagement {
         }
         float grade = ((countingCorrect * 10) / ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[testId].getNumberofQuestions());
         int testPIndex = ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[testId].getTestNumber();
-        ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[testId].setTestPoints(grade);
+        ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[testId].setTestPoints(grade, testPIndex);
         ((Professor) users.get(id1)).getClasses()[id1][id2].getTests()[testId].setAnswered(true);
     }
 

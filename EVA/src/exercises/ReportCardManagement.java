@@ -65,13 +65,19 @@ public class ReportCardManagement {
 
     private float printingGrades(int userId, ArrayList<User> users, int professorId, int classId) {
         float mean = 0;
+        int testsCounter = 0;
         for (int i = 0; i < 500; i++) {
-            for (int j = 0; j <= 3; j++) {
-                if (((Professor) users.get(professorId)).getClasses()[professorId][classId].getTests()[i].getTestPoints()[j] >= 0) {
-                    System.out.println("AV" + (j + 1));
-                    System.out.println("Grade: " + ((Professor) users.get(professorId)).getClasses()[professorId][classId].getTests()[i].getTestPoints()[j]);
-                    mean += ((Professor) users.get(professorId)).getClasses()[professorId][classId].getTests()[i].getTestPoints()[j];
+            for (int j = 1; j <= 4; j++) {
+                if (((Professor) users.get(professorId)).getClasses()[professorId][classId].getTests()[testsCounter] != null) {
+                    if (((Professor) users.get(professorId)).getClasses()[professorId][classId].getTests()[testsCounter].getTestPoints()[j] >= 0) {
+                        System.out.println("AV" + (j));
+                        System.out.println("Grade: " + ((Professor) users.get(professorId)).getClasses()[professorId][classId].getTests()[testsCounter].getTestPoints()[j]);
+                        mean += ((Professor) users.get(professorId)).getClasses()[professorId][classId].getTests()[testsCounter].getTestPoints()[j];
                 }
+                else
+                    System.out.println("Grade: 0.0");
+                }
+                testsCounter++;
             }
             return (mean/4);
         }

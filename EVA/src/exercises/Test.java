@@ -3,15 +3,14 @@ package exercises;
 public class Test extends Lesson{
     private float testPoints[] = new float[5];
     private int testNumber;
-    private int index = 0;
+    private int index;
 
     public float[] getTestPoints() {
         return testPoints;
     }
 
-    public void setTestPoints(float testPoints) {
+    public void setTestPoints(float testPoints, int index) {
         this.testPoints[index] = testPoints;
-        index++;
     }
 
     public int getTestNumber() {
