@@ -224,7 +224,7 @@ public class ProfileManagement {
         System.out.print("Insert your e-mail: ");
         users.get(userId).setEmail(entry.next());//
         if (users.get(userId) instanceof Professor) {
-            ((Professor) users.get(userId)).setClassesQuantity(Exceptions.scanInt("Insert your number of classes: "));
+            ((Professor) users.get(userId)).setClassesQuantity(Exceptions.scanInt("Insert how many classes you have: "));
             entry.nextLine();
             System.out.print("Insert your formation: ");
             ((Professor) users.get(userId)).setFormation(entry.nextLine());

@@ -2,6 +2,7 @@ package main;
 
 public class TextOptions {
     public static void options() {
+        System.out.println();
         System.out.println("    ||| Welcome to EVA |||    ");
         System.out.println("Education in a Virtual Ambient\n");
         System.out.println("Choose an option:");

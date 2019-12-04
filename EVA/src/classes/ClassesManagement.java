@@ -24,7 +24,7 @@ public class ClassesManagement {
                 break;
             }
         }
-        System.out.println("Your class was successfully created.");
+        System.out.println("Your class was successfully created.\n");
     }
 
     public void addStudents(int userId, ArrayList<User> users){
@@ -67,6 +67,10 @@ public class ClassesManagement {
                     }
                     break;
                 }
+                else{
+                    System.out.println("The class was not found or doesn't exist.");
+                    break;
+                }
             }
         }
     }
@@ -89,7 +93,6 @@ public class ClassesManagement {
                     System.out.println("The class has been founded.\n");
                     System.out.println("Do you want to enter in this class?");
                     System.out.println("0 to No\n1 to Yes\n");
-                    System.out.print("Type here: ");
                     int decision = Exceptions.scanInt("Type here: ");
                     if (decision == 0){break;}
                     if (decision == 1) {

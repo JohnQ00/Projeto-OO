@@ -16,7 +16,7 @@ public class Classes {
     private String classUsers[] = new String[500];
     private int vacancies;
     private Lesson lessons[] = new Lesson[500];
-    private Test tests[] = new Test[500];
+    private Test tests[] = new Test[4];
     private Attendance attendances[] = new Attendance[500];
 
     public String getCreator() {

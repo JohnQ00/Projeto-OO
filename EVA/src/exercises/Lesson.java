@@ -8,6 +8,15 @@ public class Lesson {
     private String leadingCourse;
     private String lessonAnswer[] = new String[100];
     private int numberofQuestions;
+    private boolean answered = false;
+
+    public boolean isAnswered() {
+        return answered;
+    }
+
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
+    }
 
     public String[] getQuestions() {
         return questions;
@@ -17,14 +26,6 @@ public class Lesson {
         this.questions[qIndex] = questions;
         qIndex++;
     }
-
-//    public String[][] getAlternatives() {
-//        return alternatives;
-//    }
-//
-//    public void setAlternatives(String[][] alternatives) {
-//        this.alternatives = alternatives;
-//    }
 
     public String[] getLessonAnswer() {
         return lessonAnswer;
