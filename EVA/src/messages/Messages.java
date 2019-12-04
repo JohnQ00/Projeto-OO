@@ -39,9 +39,6 @@ public class Messages {
                     System.out.println(users.get(userId).messageBox[userId][i][j]);
                     System.out.println();
                 }
-                else{
-                    System.out.println("No message received.");
-                }
             }
         }
     }

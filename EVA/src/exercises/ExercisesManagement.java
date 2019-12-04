@@ -49,7 +49,7 @@ public class ExercisesManagement {
             }
         }
         System.out.print("Choose a class: ");
-        String choice = entry.next();
+        String choice = entry.nextLine();
         for (int i = 0; i < 500; i++){
             for (int j = 0; j < 500; j++){
                 if (choice.equals(((Professor) users.get(i)).getClasses()[i][j].getCourse())){
@@ -69,8 +69,6 @@ public class ExercisesManagement {
         printingClasses(userId, users);
         System.out.println("Choose a class to send a test: ");
         String classChose = entry.nextLine();
-        System.out.println("Press enter to confirm");
-        entry.nextLine();
         int classId = selectingClass(userId, users, classChose);
         if(classId < 0 || classId >= 500){
             return;
@@ -157,6 +155,7 @@ public class ExercisesManagement {
         }
     }
 
+    //overload
     private void creatingAlternatives(int userId, ArrayList<User> users, int classId, int questionNumber, int lessonId) {
         for (int i = 0; i < 5; i++){
             System.out.println("Insert the alternative text: ");
@@ -165,6 +164,7 @@ public class ExercisesManagement {
         }
     }
 
+    //overload
     public void printingClasses(int userId, ArrayList<User> users){
         for (int j = 0; j< 500; j++){
             if (((Professor) users.get(userId)).getClasses()[userId][j] != null){
@@ -173,6 +173,7 @@ public class ExercisesManagement {
         }
     }
 
+    //overload
     public int selectingClass(int userId, ArrayList<User> users, String classChose){
         for (int j = 0; j< 500; j++){
             if (((Professor) users.get(userId)).getClasses()[userId][j] != null) {

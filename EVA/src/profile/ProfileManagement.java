@@ -244,7 +244,6 @@ public class ProfileManagement {
 
     public void profileCreation(int userId, User user,ArrayList<User> users) { // criar perfil do estudante
         System.out.print("Insert your full name: ");
-        entry.nextLine();
         users.get(userId).setFullName(entry.nextLine());//
         users.get(userId).setAge(Exceptions.scanInt("Insert your age: "));//
         System.out.print("Insert your e-mail: ");
@@ -278,10 +277,19 @@ public class ProfileManagement {
             System.out.print("\nFull name: ");
             System.out.println(users.get(userId).getFullName());//
             System.out.print("Age: ");
-            if (users.get(userId).getAge() < 18)
-                System.out.println("Lower than 18.");
-            else
-                System.out.println(users.get(userId).getAge());//
+            if (users.get(userId) instanceof Professor){
+                if (users.get(userId).getAge() < 20)
+                    System.out.println("Lower than 20.");
+                else
+                    System.out.println(users.get(userId).getAge());
+            }
+            if (users.get(userId) instanceof Student){
+                if (users.get(userId).getAge() < 18)
+                    System.out.println("Lower than 18.");
+                else
+                    System.out.println(users.get(userId).getAge());
+            }
+            //
             System.out.print("E-mail: ");
             System.out.println(users.get(userId).getEmail());//
 
@@ -317,7 +325,6 @@ public class ProfileManagement {
         else { professionProfileChangeInfo(); }
 
         int decision = Exceptions.scanInt("Type here: ");
-
         System.out.print("Type here: ");
         if (decision == 0){return; }
         if (decision == 1){ entry.nextLine(); users.get(userId).setFullName(entry.nextLine()); }//

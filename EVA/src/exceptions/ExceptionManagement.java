@@ -4,10 +4,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ExceptionManagement {
-    Scanner entry = new Scanner(System.in);
+    Scanner entry;
 
     public int scanInt(String message){
         int integer = 0;
+        entry = new Scanner(System.in);
         while(true) {
             try {
                 System.out.print(message);

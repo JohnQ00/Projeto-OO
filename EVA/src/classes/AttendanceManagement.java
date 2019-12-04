@@ -20,7 +20,7 @@ public class AttendanceManagement {
         System.out.println("Showing your classes: ");
         checkingClass.printingClasses(userId, users);
         System.out.print("Select a class: ");
-        String classC = entry.next();
+        String classC = entry.nextLine();
         int classId = checkingClass.selectingClass(userId, users, classC);
         if (classId < 0 || classId >= 500){return;}
         for (int i = 0; i < 500; i++){

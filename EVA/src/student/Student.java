@@ -33,7 +33,6 @@ public class Student extends User{
         }
         else
             super.setAge(age);
-        setAge(age);
     }
 
     public int getRegistrationNumber() {

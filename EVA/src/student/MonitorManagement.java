@@ -14,7 +14,7 @@ public class MonitorManagement {
         System.out.println("Showing all of your classes: ");
         printingClasses(userId, users);
         System.out.println("Choose a class:");
-        String classC = entry.next();
+        String classC = entry.nextLine();
         int classNumber = ManagingMonitor.selectingClass(userId, users, classC);
         if(classNumber < 0 || classNumber >= 500){
             return;
